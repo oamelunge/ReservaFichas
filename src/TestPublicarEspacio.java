@@ -76,15 +76,87 @@ public class TestPublicarEspacio {
 	}
 	
 	
-	//EL QUE PUBLICA EL ESPACIO DEBE SER UN COLERO REGISTRADO
 	@Test
-	public void elEspacioDebeSerHabilitadoPorUnColero()
+	public void reservadorPermitirListarLosEspaciosPublicados()
 	{
+		
+		ReservadorDeEspacio reservador = new ReservadorDeEspacio();
+		LocalDate fechaEspacio = LocalDate.now();
+		Espacio oEspacio1= new Espacio(1, 2.50,fechaEspacio,oColero);
+		Espacio oEspacio2= new Espacio(2, 2.50,fechaEspacio,oColero);
+		Espacio oEspacio3= new Espacio(3, 2.50,fechaEspacio,oColero);
+		
+		List<Espacio> espacios = new ArrayList<Espacio>();
+		espacios.add(oEspacio1);
+		espacios.add(oEspacio2);
+		espacios.add(oEspacio3);
+		
+		reservador.publicarEspaciosCola(espacios);
+		
+		List<Espacio> espaciosPublicados = new ArrayList<Espacio>();
+		espaciosPublicados=reservador.obtenerEspaciosPublicados(); 
+		
+		
+		assertEquals(espacios.get(0),espaciosPublicados.get(0));
 		
 		
 	}
 	
 	
+	@Test
+	public void reservadorDebePermitirAlClienteReservarEspaciosPublicados()
+	{
+
+		Cliente cliente = new Cliente("Oscar","75520286");
+		
+		ReservadorDeEspacio reservador = new ReservadorDeEspacio();
+		LocalDate fechaEspacio = LocalDate.now();
+		Espacio oEspacio1= new Espacio(1, 2.50,fechaEspacio,oColero);
+		Espacio oEspacio2= new Espacio(2, 2.50,fechaEspacio,oColero);
+		Espacio oEspacio3= new Espacio(3, 2.50,fechaEspacio,oColero);
+		
+		List<Espacio> espacios = new ArrayList<Espacio>();
+		espacios.add(oEspacio1);
+		espacios.add(oEspacio2);
+		espacios.add(oEspacio3);
+		
+		reservador.publicarEspaciosCola(espacios);
+		
+		List<Espacio> espaciosPublicados = new ArrayList<Espacio>();
+		espaciosPublicados=reservador.obtenerEspaciosPublicados(); 
+		
+		reservador.reservar(espaciosPublicados.get(0).getNumeracion(),cliente);
+		
+		assertEquals(espacios.get(0),espaciosPublicados.get(0));
+	}
+	/*
+	@Test
+	public void reservadorNoDebePermitirReserverEnUnEspacioQueYaTieneCliente()
+	{
+		Cliente cliente = new Cliente("Oscar","75520286");
+		Cliente noPermitir = new Cliente ("Rene","75520286");
+		
+		ReservadorDeEspacio reservador = new ReservadorDeEspacio();
+		LocalDate fechaEspacio = LocalDate.now();
+		Espacio oEspacio1= new Espacio(1, 2.50,fechaEspacio,oColero);
+		Espacio oEspacio2= new Espacio(2, 2.50,fechaEspacio,oColero);
+		Espacio oEspacio3= new Espacio(3, 2.50,fechaEspacio,oColero);
+		
+		List<Espacio> espacios = new ArrayList<Espacio>();
+		espacios.add(oEspacio1);
+		espacios.add(oEspacio2);
+		espacios.add(oEspacio3);
+		
+		reservador.publicarEspaciosCola(espacios);
+		
+		List<Espacio> espaciosPublicados = new ArrayList<Espacio>();
+		espaciosPublicados=reservador.obtenerEspaciosPublicados(); 
+		
+		reservador.reservar(espaciosPublicados.get(0).getNumeracion(),cliente);
+		
+		assertEquals(espacios.get(0),espaciosPublicados.get(0));
+	}
+	*/
 	//VER LA POSIBILIDAD DE PUBLICAR ESPACIOS PARA DISTINTOS ORGANIZACIONES CNS CPS, ET TODAVIA NO
 	
 	@Before
